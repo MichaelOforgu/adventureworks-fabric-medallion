@@ -1,7 +1,5 @@
 /* =====================================================================
-   04_dq_checks.sql                                           (v3)
-   RUN IN : wh_gold - after gold.usp_Run_GoldLoad
-   Each query says what "good" looks like.
+   04_dq_checks.sql                                          
    ===================================================================== */
 
 -- 1. Latest run: pipeline row + every table 'Succeeded'
