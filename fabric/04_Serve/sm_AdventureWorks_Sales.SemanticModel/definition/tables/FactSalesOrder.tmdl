@@ -1,0 +1,279 @@
+table FactSalesOrder
+	lineageTag: 0ccdc641-c2fb-40bb-860d-7d1a089b0c78
+	sourceLineageTag: [gold].[FactSalesOrder]
+
+	column SalesOrderID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4175df98-acf8-4eb1-a974-3b2a44c13729
+		sourceLineageTag: SalesOrderID
+		summarizeBy: count
+		sourceColumn: SalesOrderID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderNumber
+		dataType: string
+		lineageTag: 32af09d1-f70a-4ee9-a8b2-155edceeb3c3
+		sourceLineageTag: SalesOrderNumber
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 26775e60-778e-42b2-b767-fe792dc1d9d3
+		sourceLineageTag: OrderDateKey
+		summarizeBy: none
+		sourceColumn: OrderDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DueDateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 30dc9a19-bf40-49ea-89c9-4e117d442369
+		sourceLineageTag: DueDateKey
+		summarizeBy: count
+		sourceColumn: DueDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipDateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 781b25da-4a54-4f4e-8b27-37005d7a6430
+		sourceLineageTag: ShipDateKey
+		summarizeBy: count
+		sourceColumn: ShipDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b121d803-45e0-4e40-8468-482655456cd4
+		sourceLineageTag: CustomerKey
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 65102bc6-0477-4605-8351-20bef61c2a65
+		sourceLineageTag: SalesTerritoryKey
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmployeeKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c452b78c-c9f4-4043-af3d-75b2475d2d7f
+		sourceLineageTag: EmployeeKey
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipMethodKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 757df42a-b4cd-4525-81bd-3fc15a7e0aaa
+		sourceLineageTag: ShipMethodKey
+		summarizeBy: none
+		sourceColumn: ShipMethodKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 29ccdb59-190d-489c-9f37-e545052739e5
+		sourceLineageTag: CurrencyKey
+		summarizeBy: none
+		sourceColumn: CurrencyKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipToGeographyKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6b0ca36a-c4ff-4519-a390-663f6cea18b3
+		sourceLineageTag: ShipToGeographyKey
+		summarizeBy: none
+		sourceColumn: ShipToGeographyKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OnlineOrderFlag
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ea051270-74b6-4d4d-b5f5-e0e9c151bee4
+		sourceLineageTag: OnlineOrderFlag
+		summarizeBy: none
+		sourceColumn: OnlineOrderFlag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderStatusName
+		dataType: string
+		lineageTag: 7261ce71-6c50-4acb-b2ef-3598d5168d78
+		sourceLineageTag: OrderStatusName
+		summarizeBy: none
+		sourceColumn: OrderStatusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderLineCount
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 00c9771c-2cc9-4aac-b9d8-7d3d0d912e32
+		sourceLineageTag: OrderLineCount
+		summarizeBy: sum
+		sourceColumn: OrderLineCount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubTotal
+		dataType: double
+		lineageTag: 56a9bdc4-a494-49e5-9a00-2fec08501b89
+		sourceLineageTag: SubTotal
+		summarizeBy: sum
+		sourceColumn: SubTotal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TaxAmt
+		dataType: double
+		lineageTag: 1acfbbf2-bccf-49c4-a1cd-84b3826141d2
+		sourceLineageTag: TaxAmt
+		summarizeBy: sum
+		sourceColumn: TaxAmt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Freight
+		dataType: double
+		isHidden
+		lineageTag: 96ed1026-92db-411c-8131-3556c7a713c9
+		sourceLineageTag: Freight
+		summarizeBy: sum
+		sourceColumn: Freight
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalDue
+		dataType: double
+		lineageTag: a0317de5-7c3a-443d-9589-35b78db18fc7
+		sourceLineageTag: TotalDue
+		summarizeBy: sum
+		sourceColumn: TotalDue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DaysToShip
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ce0ab32d-21d2-47ec-b9c8-09b9230a7cb4
+		sourceLineageTag: DaysToShip
+		summarizeBy: sum
+		sourceColumn: DaysToShip
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsLateShipment
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e3963d75-54f3-47fc-b183-4cfbee296712
+		sourceLineageTag: IsLateShipment
+		summarizeBy: none
+		sourceColumn: IsLateShipment
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: 091b677d-d92d-4fab-aaed-d31319e8b02e
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesChannel
+		dataType: string
+		lineageTag: 51f23038-bd38-4b31-b032-a685f415b5e0
+		sourceLineageTag: SalesChannel
+		summarizeBy: none
+		sourceColumn: SalesChannel
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSalesOrder = entity
+		mode: directLake
+		source
+			entityName: FactSalesOrder
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

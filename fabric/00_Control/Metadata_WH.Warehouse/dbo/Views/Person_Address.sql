@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Person_Address] AS SELECT CAST([AddressID] AS int) AS [AddressID], CAST([AddressLine1] AS VARCHAR(60)) AS [AddressLine1], CAST([AddressLine2] AS VARCHAR(60)) AS [AddressLine2], CAST([City] AS VARCHAR(30)) AS [City], CAST([StateProvinceID] AS int) AS [StateProvinceID], CAST([PostalCode] AS VARCHAR(15)) AS [PostalCode], CAST([SpatialLocation] AS VARCHAR(MAX)) AS [SpatialLocation], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Person_Address];
+
+GO

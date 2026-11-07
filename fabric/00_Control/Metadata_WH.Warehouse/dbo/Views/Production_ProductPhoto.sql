@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Production_ProductPhoto] AS SELECT CAST([ProductPhotoID] AS int) AS [ProductPhotoID], CAST([ThumbNailPhoto] AS varbinary(MAX)) AS [ThumbNailPhoto], CAST([ThumbnailPhotoFileName] AS VARCHAR(50)) AS [ThumbnailPhotoFileName], CAST([LargePhoto] AS varbinary(MAX)) AS [LargePhoto], CAST([LargePhotoFileName] AS VARCHAR(50)) AS [LargePhotoFileName], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Production_ProductPhoto];
+
+GO

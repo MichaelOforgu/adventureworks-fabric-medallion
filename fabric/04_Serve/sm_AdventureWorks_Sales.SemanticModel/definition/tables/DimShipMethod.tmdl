@@ -1,0 +1,67 @@
+table DimShipMethod
+	lineageTag: 5a4e042a-28ca-4b25-ba4d-b44c7e46d52c
+	sourceLineageTag: [gold].[DimShipMethod]
+
+	column ShipMethodKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c262a497-d9b1-4836-bc78-0d9e4f4d0e82
+		sourceLineageTag: ShipMethodKey
+		summarizeBy: none
+		sourceColumn: ShipMethodKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipMethodName
+		dataType: string
+		lineageTag: 85e26fe2-b912-4f7d-8555-f5ed5796999a
+		sourceLineageTag: ShipMethodName
+		summarizeBy: none
+		sourceColumn: ShipMethodName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipBase
+		dataType: double
+		lineageTag: 26c90351-0ccc-49b0-a1d7-e88376b4a061
+		sourceLineageTag: ShipBase
+		summarizeBy: sum
+		sourceColumn: ShipBase
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ShipRate
+		dataType: double
+		lineageTag: 3e94dd24-c684-42c6-9057-5ce5469db88a
+		sourceLineageTag: ShipRate
+		summarizeBy: sum
+		sourceColumn: ShipRate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: 7e1b0e22-c053-4050-a061-a0ca524ab564
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimShipMethod = entity
+		mode: directLake
+		source
+			entityName: DimShipMethod
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

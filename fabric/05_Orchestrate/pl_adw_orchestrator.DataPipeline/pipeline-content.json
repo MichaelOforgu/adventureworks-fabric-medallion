@@ -1,0 +1,191 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT * FROM metadata.MainControlTable\nWHERE layer = 'bronze' AND loadtype IN ('full','incremental')",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "linkedService": {
+              "name": "Metadata_WH",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "c8507f11-9ce2-9f76-49ce-14cea856950d",
+                  "endpoint": "jzy5p3lx3zxuxlwtj42gmbsjny-twycvl4hmlqehedj7fxufr3sai.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          },
+          "firstRowOnly": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Get tables to load to bronze layer",
+        "dependsOn": []
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Get tables to load to bronze layer').output.value",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "InvokePipeline",
+              "typeProperties": {
+                "parameters": {
+                  "sourceincrementalcolumn": {
+                    "value": "@item().sourceincrementalcolumn",
+                    "type": "Expression"
+                  },
+                  "sourceincrementalstartValue": {
+                    "value": "@item().sourceincrementalstartValue",
+                    "type": "Expression"
+                  },
+                  "sourceincrementaltype": {
+                    "value": "@item().sourceincrementaltype",
+                    "type": "Expression"
+                  },
+                  "sourceschema": {
+                    "value": "@item().sourceschema",
+                    "type": "Expression"
+                  },
+                  "sourcetable": {
+                    "value": "@item().sourcetable",
+                    "type": "Expression"
+                  },
+                  "sinktable": {
+                    "value": "@item().sinktable",
+                    "type": "Expression"
+                  },
+                  "loadtype": {
+                    "value": "@item().loadtype",
+                    "type": "Expression"
+                  },
+                  "tablekey": {
+                    "value": "@item().tablekey",
+                    "type": "Expression"
+                  },
+                  "sinkdatabase": {
+                    "value": "@item().sinkdatabase",
+                    "type": "Expression"
+                  },
+                  "sourcequery": {
+                    "value": "@item().sourcequery",
+                    "type": "Expression"
+                  }
+                },
+                "waitOnCompletion": true,
+                "workspaceId": "00000000-0000-0000-0000-000000000000",
+                "pipelineId": "080b0f1e-747f-bbf3-474b-c6cc0ff77869",
+                "operationType": "InvokeFabricPipeline"
+              },
+              "externalReferences": {
+                "connection": "522675c0-f439-492d-a9f6-cf7783ba0bb7"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Invoke Metadata Bronze Ingestion",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "For each table to load to deltalake",
+        "dependsOn": [
+          {
+            "activity": "Get tables to load to bronze layer",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "16ac3142-1b6b-bacb-4e7d-0081d865fc8b",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "522675c0-f439-492d-a9f6-cf7783ba0bb7"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Invoke silver virtualization",
+        "dependsOn": [
+          {
+            "activity": "For each table to load to deltalake",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "1e35cd96-c455-9a6c-4582-f0607a489113",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "522675c0-f439-492d-a9f6-cf7783ba0bb7"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Invoke gold load",
+        "dependsOn": [
+          {
+            "activity": "Invoke silver virtualization",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "loadbronze": {
+        "type": "int",
+        "defaultValue": 1
+      }
+    }
+  }
+}

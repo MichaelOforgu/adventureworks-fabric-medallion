@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Production_BillOfMaterials] AS SELECT CAST([BillOfMaterialsID] AS int) AS [BillOfMaterialsID], CAST([ProductAssemblyID] AS int) AS [ProductAssemblyID], CAST([ComponentID] AS int) AS [ComponentID], CAST([StartDate] AS datetime2(6)) AS [StartDate], CAST([EndDate] AS datetime2(6)) AS [EndDate], CAST([UnitMeasureCode] AS nchar(3)) AS [UnitMeasureCode], CAST([BOMLevel] AS smallint) AS [BOMLevel], CAST([PerAssemblyQty] AS decimal(8,2)) AS [PerAssemblyQty], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Production_BillOfMaterials];
+
+GO

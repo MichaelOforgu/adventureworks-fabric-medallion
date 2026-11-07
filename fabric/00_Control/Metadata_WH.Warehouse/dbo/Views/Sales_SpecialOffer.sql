@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Sales_SpecialOffer] AS SELECT CAST([SpecialOfferID] AS int) AS [SpecialOfferID], CAST([Description] AS VARCHAR(255)) AS [Description], CAST([DiscountPct] AS smallmoney) AS [DiscountPct], CAST([Type] AS VARCHAR(50)) AS [Type], CAST([Category] AS VARCHAR(50)) AS [Category], CAST([StartDate] AS datetime2(6)) AS [StartDate], CAST([EndDate] AS datetime2(6)) AS [EndDate], CAST([MinQty] AS int) AS [MinQty], CAST([MaxQty] AS int) AS [MaxQty], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Sales_SpecialOffer];
+
+GO

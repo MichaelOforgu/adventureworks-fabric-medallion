@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "rpt_AdventureWorks_Sales"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a3125d30-7c2a-a61a-4666-a5717f39ce5f"
+  }
+}

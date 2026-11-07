@@ -1,0 +1,102 @@
+table DimEmployee
+	lineageTag: 051c98f8-cc46-4421-9a75-65004aadd675
+	sourceLineageTag: [gold].[DimEmployee]
+
+	column EmployeeKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cdd6a4d4-5c47-4273-8c99-b1705005a729
+		sourceLineageTag: EmployeeKey
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FullName
+		dataType: string
+		lineageTag: 22d67c4f-1f21-4ac0-9876-fb2095a9de55
+		sourceLineageTag: FullName
+		summarizeBy: none
+		sourceColumn: FullName
+
+		annotation SummarizationSetBy = Automatic
+
+	column JobTitle
+		dataType: string
+		lineageTag: 8b03a48f-b894-4589-8279-e247a274ec3c
+		sourceLineageTag: JobTitle
+		summarizeBy: none
+		sourceColumn: JobTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	column Department
+		dataType: string
+		lineageTag: 7609e723-39e6-4eb4-89ba-a8ff0d19376f
+		sourceLineageTag: Department
+		summarizeBy: none
+		sourceColumn: Department
+
+		annotation SummarizationSetBy = Automatic
+
+	column HireDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2e0be016-5c3e-4cdb-8fff-bc19053904b9
+		sourceLineageTag: HireDate
+		summarizeBy: none
+		sourceColumn: HireDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsSalesPerson
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 20fb4ab5-cc20-40a3-9ac7-c0294b146ee2
+		sourceLineageTag: IsSalesPerson
+		summarizeBy: none
+		sourceColumn: IsSalesPerson
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsCurrentEmployee
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a9d431fb-c257-45da-a987-b885310cfa38
+		sourceLineageTag: IsCurrentEmployee
+		summarizeBy: none
+		sourceColumn: IsCurrentEmployee
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryName
+		dataType: string
+		lineageTag: d83e72b2-4265-44a6-b37f-3a8ca87b9059
+		sourceLineageTag: TerritoryName
+		summarizeBy: none
+		sourceColumn: TerritoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: 6a76d276-561d-4495-aa7f-4eb8093273b1
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimEmployee = entity
+		mode: directLake
+		source
+			entityName: DimEmployee
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

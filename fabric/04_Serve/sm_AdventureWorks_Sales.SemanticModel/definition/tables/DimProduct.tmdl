@@ -1,0 +1,187 @@
+table DimProduct
+	lineageTag: 8ebc69ca-3f30-4514-955c-52f77a53596e
+	sourceLineageTag: [gold].[DimProduct]
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8129c36b-4402-4d3d-8331-09699be3a704
+		sourceLineageTag: ProductKey
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 353bc08a-17bb-4755-bfb0-4b30706d993c
+		sourceLineageTag: ProductName
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductNumber
+		dataType: string
+		lineageTag: ccd3d44c-5f03-480b-9c51-f8663078a282
+		sourceLineageTag: ProductNumber
+		summarizeBy: none
+		sourceColumn: ProductNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column Color
+		dataType: string
+		lineageTag: 39fa61e4-2281-44be-8de8-931d3b4ad614
+		sourceLineageTag: Color
+		summarizeBy: none
+		sourceColumn: Color
+
+		annotation SummarizationSetBy = Automatic
+
+	column Size
+		dataType: string
+		lineageTag: 318cbb91-ca65-45b5-b5b5-fb860eddc684
+		sourceLineageTag: Size
+		summarizeBy: none
+		sourceColumn: Size
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductLine
+		dataType: string
+		lineageTag: 5fd01251-2695-4c9d-8da6-80fe28a247a7
+		sourceLineageTag: ProductLine
+		summarizeBy: none
+		sourceColumn: ProductLine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Class
+		dataType: string
+		lineageTag: 7a595a1e-2433-4b9d-9e64-a52a65a3d81a
+		sourceLineageTag: Class
+		summarizeBy: none
+		sourceColumn: Class
+
+		annotation SummarizationSetBy = Automatic
+
+	column Style
+		dataType: string
+		lineageTag: 683ba981-7946-48d5-bf96-b13e39a9b609
+		sourceLineageTag: Style
+		summarizeBy: none
+		sourceColumn: Style
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModelName
+		dataType: string
+		lineageTag: a0d33d97-6e07-4758-88bb-ae539ef1b6e7
+		sourceLineageTag: ModelName
+		summarizeBy: none
+		sourceColumn: ModelName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subcategory
+		dataType: string
+		lineageTag: e6c4e5eb-afd2-4d6a-ad9e-e848fd7983bd
+		sourceLineageTag: Subcategory
+		summarizeBy: none
+		sourceColumn: Subcategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: e13703f0-7ab5-4ad4-ad18-d12ab8e25ca2
+		sourceLineageTag: Category
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column StandardCost
+		dataType: double
+		lineageTag: 16c53f0c-0874-4afa-ab58-614018765e09
+		sourceLineageTag: StandardCost
+		summarizeBy: none
+		sourceColumn: StandardCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ListPrice
+		dataType: double
+		lineageTag: 5425ee9e-bb03-45ed-869c-3c712ef1c017
+		sourceLineageTag: ListPrice
+		summarizeBy: none
+		sourceColumn: ListPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsFinishedGood
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d02d60dc-4d81-45a6-a533-3409bb39d4c0
+		sourceLineageTag: IsFinishedGood
+		summarizeBy: none
+		sourceColumn: IsFinishedGood
+
+		annotation SummarizationSetBy = Automatic
+
+	column SellStartDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: fa22d318-d9fb-4695-a333-84f677b1a206
+		sourceLineageTag: SellStartDate
+		summarizeBy: none
+		sourceColumn: SellStartDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column SellEndDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1db6cbfe-eddb-43f7-b26b-213c611eea7b
+		sourceLineageTag: SellEndDate
+		summarizeBy: none
+		sourceColumn: SellEndDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductStatus
+		dataType: string
+		lineageTag: 5ad0c874-220b-44c5-9375-0f55066bc373
+		sourceLineageTag: ProductStatus
+		summarizeBy: none
+		sourceColumn: ProductStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: 02f0150e-5b1b-4c7d-9634-f5b13ea62319
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProduct = entity
+		mode: directLake
+		source
+			entityName: DimProduct
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

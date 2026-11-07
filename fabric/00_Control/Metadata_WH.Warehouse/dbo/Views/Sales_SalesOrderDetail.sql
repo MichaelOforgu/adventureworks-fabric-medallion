@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Sales_SalesOrderDetail] AS SELECT CAST([SalesOrderID] AS int) AS [SalesOrderID], CAST([SalesOrderDetailID] AS int) AS [SalesOrderDetailID], CAST([CarrierTrackingNumber] AS VARCHAR(25)) AS [CarrierTrackingNumber], CAST([OrderQty] AS smallint) AS [OrderQty], CAST([ProductID] AS int) AS [ProductID], CAST([SpecialOfferID] AS int) AS [SpecialOfferID], CAST([UnitPrice] AS money) AS [UnitPrice], CAST([UnitPriceDiscount] AS money) AS [UnitPriceDiscount], CAST([LineTotal] AS numeric(38,6)) AS [LineTotal], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Sales_SalesOrderDetail];
+
+GO

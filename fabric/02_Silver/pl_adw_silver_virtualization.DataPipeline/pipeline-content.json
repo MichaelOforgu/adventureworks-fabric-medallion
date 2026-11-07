@@ -1,0 +1,175 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "SqlServerSource",
+            "sqlReaderQuery": "SELECT\n    c.TABLE_CATALOG,\n    c.TABLE_SCHEMA,\n    c.TABLE_NAME,\n    c.COLUMN_NAME,\n    c.ORDINAL_POSITION,\n    c.COLUMN_DEFAULT,\n    c.IS_NULLABLE,\n    c.DATA_TYPE,\n    c.CHARACTER_MAXIMUM_LENGTH,\n    c.CHARACTER_OCTET_LENGTH,\n    c.NUMERIC_PRECISION,\n    c.NUMERIC_PRECISION_RADIX,\n    c.NUMERIC_SCALE,\n    c.DATETIME_PRECISION,\n    c.CHARACTER_SET_CATALOG,\n    c.CHARACTER_SET_SCHEMA,\n    c.CHARACTER_SET_NAME,\n    c.COLLATION_CATALOG,\n    c.COLLATION_SCHEMA,\n    c.COLLATION_NAME,\n    c.DOMAIN_CATALOG,\n    c.DOMAIN_SCHEMA,\n    c.DOMAIN_NAME\nFROM INFORMATION_SCHEMA.COLUMNS AS c\nINNER JOIN INFORMATION_SCHEMA.TABLES AS t\n    ON c.TABLE_SCHEMA = t.TABLE_SCHEMA\n    AND c.TABLE_NAME = t.TABLE_NAME\nWHERE t.TABLE_TYPE = 'BASE TABLE'\n  AND c.TABLE_SCHEMA NOT IN ('dbo', 'sys')\n  AND c.TABLE_NAME NOT LIKE 'v%'\n  AND c.TABLE_NAME NOT IN (\n      'Document',\n      'Illustration',\n      'ProductDocument',\n      'ProductModel'\n  )\nORDER BY\n    c.TABLE_SCHEMA,\n    c.TABLE_NAME,\n    c.ORDINAL_POSITION;",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00",
+            "datasetSettings": {
+              "type": "SqlServerTable",
+              "typeProperties": {
+                "database": "AdventureWorks2019"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "00e4406f-6035-4c16-be87-fc35402a6e23"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "DataWarehouseSink",
+            "tableOption": "autoCreate",
+            "allowCopyCommand": true,
+            "copyCommandSettings": {},
+            "writeBehavior": "Insert",
+            "datasetSettings": {
+              "type": "DataWarehouseTable",
+              "typeProperties": {
+                "schema": "metadata",
+                "table": "AdventureWorks"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "Metadata_WH",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "a856950d-14ce-49ce-9f76-9ce2c8507f11",
+                    "endpoint": "jzy5p3lx3zxuxlwtj42gmbsjny-twycvl4hmlqehedj7fxufr3sai.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "af2ab09d-6287-43e0-9069-f96f42c77202"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy source table metadata",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": []
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT * FROM metadata.MainControlTable\nWHERE loadtype = 'view'",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "linkedService": {
+              "name": "Metadata_WH",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "c8507f11-9ce2-9f76-49ce-14cea856950d",
+                  "endpoint": "jzy5p3lx3zxuxlwtj42gmbsjny-twycvl4hmlqehedj7fxufr3sai.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          },
+          "firstRowOnly": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Get tables for silver",
+        "dependsOn": [
+          {
+            "activity": "Copy source table metadata",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Get tables for silver').output.value",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "SqlServerStoredProcedure",
+              "typeProperties": {
+                "storedProcedureName": "[util].[usp_CreateSilverView]",
+                "storedProcedureParameters": {
+                  "sourcedatabase": {
+                    "value": {
+                      "value": "@item().sourcedatabase",
+                      "type": "Expression"
+                    },
+                    "type": "String"
+                  },
+                  "sourcetable": {
+                    "value": {
+                      "value": "@item().sourcetable",
+                      "type": "Expression"
+                    },
+                    "type": "String"
+                  }
+                }
+              },
+              "externalReferences": {
+                "connection": "c9be048f-42f3-4390-8157-d1831329103a"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Create silver view",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "For each table to virtualize silver layer",
+        "dependsOn": [
+          {
+            "activity": "Get tables for silver",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

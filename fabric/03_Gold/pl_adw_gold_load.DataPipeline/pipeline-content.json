@@ -1,0 +1,302 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "[control].[usp_LogPipelineRun]",
+          "storedProcedureParameters": {
+            "ErrorMessage": {
+              "value": null,
+              "type": "String"
+            },
+            "PipelineName": {
+              "value": {
+                "value": "@pipeline().PipelineName",
+                "type": "Expression"
+              },
+              "type": "String"
+            },
+            "PipelineRunId": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "String"
+            },
+            "Status": {
+              "value": "Running",
+              "type": "String"
+            },
+            "TriggerType": {
+              "value": {
+                "value": "@pipeline().TriggerType",
+                "type": "Expression"
+              },
+              "type": "String"
+            }
+          }
+        },
+        "linkedService": {
+          "name": "wh_gold",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "fba6de7d-86e2-9510-4a82-b949bc40e94a",
+              "endpoint": "jzy5p3lx3zxuxlwtj42gmbsjny-twycvl4hmlqehedj7fxufr3sai.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Log Start",
+        "dependsOn": []
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT sinkschema + '.' + sinktable AS TableName,\n       StoredProcedure_exec        AS ProcName\nFROM metadata.MainControlTable\nWHERE layer = 'gold' AND ISNULL(skipload, 0) = 0\nORDER BY OrderExecution;",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "linkedService": {
+              "name": "Metadata_WH",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "c8507f11-9ce2-9f76-49ce-14cea856950d",
+                  "endpoint": "jzy5p3lx3zxuxlwtj42gmbsjny-twycvl4hmlqehedj7fxufr3sai.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          },
+          "firstRowOnly": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Get tables to load to gold layer",
+        "dependsOn": [
+          {
+            "activity": "Log Start",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": true,
+          "items": {
+            "value": "@activity('Get tables to load to gold layer').output.value",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "SqlServerStoredProcedure",
+              "typeProperties": {
+                "storedProcedureName": {
+                  "value": "@item().ProcName",
+                  "type": "Expression"
+                },
+                "storedProcedureParameters": {
+                  "RunId": {
+                    "value": {
+                      "value": "@pipeline().RunId",
+                      "type": "Expression"
+                    },
+                    "type": "String"
+                  }
+                }
+              },
+              "linkedService": {
+                "name": "wh_gold",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "fba6de7d-86e2-9510-4a82-b949bc40e94a",
+                    "endpoint": "jzy5p3lx3zxuxlwtj42gmbsjny-twycvl4hmlqehedj7fxufr3sai.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000"
+                  },
+                  "annotations": []
+                }
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Load gold table",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "For each gold table",
+        "dependsOn": [
+          {
+            "activity": "Get tables to load to gold layer",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "[control].[usp_LogPipelineRun]",
+          "storedProcedureParameters": {
+            "ErrorMessage": {
+              "value": null,
+              "type": "String"
+            },
+            "PipelineName": {
+              "value": {
+                "value": "@pipeline().PipelineName",
+                "type": "Expression"
+              },
+              "type": "String"
+            },
+            "PipelineRunId": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "String"
+            },
+            "Status": {
+              "value": "Succeeded",
+              "type": "String"
+            },
+            "TriggerType": {
+              "value": {
+                "value": "@pipeline().TriggerType",
+                "type": "Expression"
+              },
+              "type": "String"
+            }
+          }
+        },
+        "linkedService": {
+          "name": "wh_gold",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "fba6de7d-86e2-9510-4a82-b949bc40e94a",
+              "endpoint": "jzy5p3lx3zxuxlwtj42gmbsjny-twycvl4hmlqehedj7fxufr3sai.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Log Success",
+        "dependsOn": [
+          {
+            "activity": "For each gold table",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "[control].[usp_LogPipelineRun]",
+          "storedProcedureParameters": {
+            "ErrorMessage": {
+              "value": {
+                "value": "@concat('Gold load failed - see etl.TableLoadLog for PipelineRunId ', pipeline().RunId)",
+                "type": "Expression"
+              },
+              "type": "String"
+            },
+            "PipelineName": {
+              "value": {
+                "value": "@pipeline().PipelineName",
+                "type": "Expression"
+              },
+              "type": "String"
+            },
+            "PipelineRunId": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "String"
+            },
+            "Status": {
+              "value": "Failed",
+              "type": "String"
+            },
+            "TriggerType": {
+              "value": {
+                "value": "@pipeline().TriggerType",
+                "type": "Expression"
+              },
+              "type": "String"
+            }
+          }
+        },
+        "linkedService": {
+          "name": "wh_gold",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "fba6de7d-86e2-9510-4a82-b949bc40e94a",
+              "endpoint": "jzy5p3lx3zxuxlwtj42gmbsjny-twycvl4hmlqehedj7fxufr3sai.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Log Failure",
+        "dependsOn": [
+          {
+            "activity": "For each gold table",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

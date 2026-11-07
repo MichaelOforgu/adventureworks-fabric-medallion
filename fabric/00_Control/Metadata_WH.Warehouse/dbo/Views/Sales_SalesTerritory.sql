@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Sales_SalesTerritory] AS SELECT CAST([TerritoryID] AS int) AS [TerritoryID], CAST([Name] AS VARCHAR(50)) AS [Name], CAST([CountryRegionCode] AS VARCHAR(3)) AS [CountryRegionCode], CAST([Group] AS VARCHAR(50)) AS [Group], CAST([SalesYTD] AS money) AS [SalesYTD], CAST([SalesLastYear] AS money) AS [SalesLastYear], CAST([CostYTD] AS money) AS [CostYTD], CAST([CostLastYear] AS money) AS [CostLastYear], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Sales_SalesTerritory];
+
+GO

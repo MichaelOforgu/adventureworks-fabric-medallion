@@ -1,0 +1,73 @@
+table FactSalesQuota
+	lineageTag: a060cfcc-98c7-4ba1-842a-c8647cbb47ac
+	sourceLineageTag: [gold].[FactSalesQuota]
+
+	column EmployeeKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b5df88db-0da8-4f6b-a7b4-171a37d85c37
+		sourceLineageTag: EmployeeKey
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuotaDateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b638725f-214d-4014-87ef-57fda807e84a
+		sourceLineageTag: QuotaDateKey
+		summarizeBy: none
+		sourceColumn: QuotaDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 18c5a4b7-5549-40b1-bbf2-96ad8bb022ff
+		sourceLineageTag: SalesTerritoryKey
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesQuota
+		dataType: double
+		lineageTag: c994f139-4de9-4cad-ace7-e86ecf9f1f7e
+		sourceLineageTag: SalesQuota
+		summarizeBy: sum
+		sourceColumn: SalesQuota
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: 11dbb1a7-2468-4522-be4f-36bb7fb3bcdd
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSalesQuota = entity
+		mode: directLake
+		source
+			entityName: FactSalesQuota
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

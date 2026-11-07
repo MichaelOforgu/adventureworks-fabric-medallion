@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Person_StateProvince] AS SELECT CAST([StateProvinceID] AS int) AS [StateProvinceID], CAST([StateProvinceCode] AS nchar(3)) AS [StateProvinceCode], CAST([CountryRegionCode] AS VARCHAR(3)) AS [CountryRegionCode], CAST([IsOnlyStateProvinceFlag] AS bit) AS [IsOnlyStateProvinceFlag], CAST([Name] AS VARCHAR(50)) AS [Name], CAST([TerritoryID] AS int) AS [TerritoryID], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Person_StateProvince];
+
+GO

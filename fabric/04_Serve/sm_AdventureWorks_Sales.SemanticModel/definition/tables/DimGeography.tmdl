@@ -1,0 +1,108 @@
+table DimGeography
+	lineageTag: c05d65b9-cfb8-424d-9ac0-b4293b0a0202
+	sourceLineageTag: [gold].[DimGeography]
+
+	column GeographyKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e6893182-dc20-4456-a547-54586f3f0cae
+		sourceLineageTag: GeographyKey
+		summarizeBy: none
+		sourceColumn: GeographyKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: f26b4572-6134-4562-a4a8-cf866812dc54
+		sourceLineageTag: City
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column PostalCode
+		dataType: string
+		lineageTag: cba2ddd2-6463-49d6-9b2f-e17e4aa471ca
+		sourceLineageTag: PostalCode
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateProvinceCode
+		dataType: string
+		lineageTag: 2b56a90f-6f18-474f-bc7a-4b8cb5173c81
+		sourceLineageTag: StateProvinceCode
+		summarizeBy: none
+		sourceColumn: StateProvinceCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateProvinceName
+		dataType: string
+		lineageTag: 68091f02-0b79-4f0a-8e21-f702c9a6381f
+		sourceLineageTag: StateProvinceName
+		summarizeBy: none
+		sourceColumn: StateProvinceName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryRegionCode
+		dataType: string
+		lineageTag: c3a6c610-9faa-4a35-80f0-4e26eb783171
+		sourceLineageTag: CountryRegionCode
+		summarizeBy: none
+		sourceColumn: CountryRegionCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryRegionName
+		dataType: string
+		lineageTag: f3cd6359-31f7-4999-b378-3147d27070f4
+		sourceLineageTag: CountryRegionName
+		summarizeBy: none
+		sourceColumn: CountryRegionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryName
+		dataType: string
+		lineageTag: 397e0f21-75d9-49eb-9a22-10d8043ab887
+		sourceLineageTag: TerritoryName
+		summarizeBy: none
+		sourceColumn: TerritoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryGroup
+		dataType: string
+		lineageTag: 9a8f4378-d2ec-4c04-bf62-1db6010c7875
+		sourceLineageTag: TerritoryGroup
+		summarizeBy: none
+		sourceColumn: TerritoryGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: 5c2efe27-ffee-444f-a69b-eb9da8d6aa36
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimGeography = entity
+		mode: directLake
+		source
+			entityName: DimGeography
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

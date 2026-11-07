@@ -1,0 +1,96 @@
+relationship 3a9e4c14-515e-cc8c-73e5-f0ea2708a5e1
+	isActive: false
+	fromColumn: FactSales.DueDateKey
+	toColumn: DimDate.DateKey
+
+relationship f6c3403f-d2c8-9c16-1999-c448487a4edb
+	isActive: false
+	fromColumn: FactSales.ShipDateKey
+	toColumn: DimDate.DateKey
+
+relationship 4a19967a-8f6a-58b1-1faa-945ad627c665
+	fromColumn: FactSales.CustomerKey
+	toColumn: DimCustomer.CustomerKey
+
+relationship 6adb61fa-c11f-0ead-ad59-0145b41655aa
+	fromColumn: FactSales.CurrencyKey
+	toColumn: DimCurrency.CurrencyKey
+
+relationship 616d56d3-e2d1-d673-a70a-3929c25607ae
+	fromColumn: FactSales.EmployeeKey
+	toColumn: DimEmployee.EmployeeKey
+
+relationship 5dc1f36a-8e56-f7ce-b618-f0ce934aed61
+	fromColumn: FactSales.ShipToGeographyKey
+	toColumn: DimGeography.GeographyKey
+
+relationship 715db0d6-daed-dd24-9ab1-780b27cd5b13
+	fromColumn: FactSales.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 61bca108-d053-910f-c973-f52e8d0aa458
+	fromColumn: FactSales.PromotionKey
+	toColumn: DimPromotion.PromotionKey
+
+relationship 83ed4c46-b219-e6df-4801-add9ab72dade
+	fromColumn: FactSales.SalesTerritoryKey
+	toColumn: DimSalesTerritory.SalesTerritoryKey
+
+relationship e6aad766-dba7-789e-8f89-074838cc05bc
+	fromColumn: FactSales.ShipMethodKey
+	toColumn: DimShipMethod.ShipMethodKey
+
+relationship f757882a-5614-be48-ac80-87961e94f0f8
+	fromColumn: FactSalesOrder.OrderDateKey
+	toColumn: DimDate.DateKey
+
+relationship 0a98e18c-0ea0-950e-cbd4-f6755aad1515
+	isActive: false
+	fromColumn: FactSalesOrder.DueDateKey
+	toColumn: DimDate.DateKey
+
+relationship 98a49f86-e985-c7ef-8ffe-88751c6593a9
+	isActive: false
+	fromColumn: FactSalesOrder.ShipDateKey
+	toColumn: DimDate.DateKey
+
+relationship affe0d3a-eef5-79c1-7389-4039e45b310d
+	fromColumn: FactSalesOrder.CurrencyKey
+	toColumn: DimCurrency.CurrencyKey
+
+relationship f3581f44-63af-4024-36a0-6b8f01a00fa8
+	fromColumn: FactSalesOrder.CustomerKey
+	toColumn: DimCustomer.CustomerKey
+
+relationship cecee6b8-a927-3fe7-1b61-627138ae5a91
+	fromColumn: FactSalesOrder.EmployeeKey
+	toColumn: DimEmployee.EmployeeKey
+
+relationship 43fdca5e-a9ca-001d-7baf-b69dfa9e2d08
+	fromColumn: FactSalesOrder.ShipMethodKey
+	toColumn: DimShipMethod.ShipMethodKey
+
+relationship 30defc46-a5d2-9374-9eae-e3814165b4d9
+	fromColumn: FactSalesOrder.SalesTerritoryKey
+	toColumn: DimSalesTerritory.SalesTerritoryKey
+
+relationship c61a369a-1561-b68a-68b4-f3f78190565c
+	fromColumn: FactSalesOrder.ShipToGeographyKey
+	toColumn: DimGeography.GeographyKey
+
+relationship 434eb8cc-4c91-1eca-6e7d-fa8b08bf00b6
+	fromColumn: FactSalesQuota.QuotaDateKey
+	toColumn: DimDate.DateKey
+
+relationship 35cea01c-206f-3e3e-ef75-fbc580ec1767
+	fromColumn: FactSalesQuota.EmployeeKey
+	toColumn: DimEmployee.EmployeeKey
+
+relationship 670f5aa2-af04-3b8a-0e21-64defa428a5a
+	fromColumn: FactSalesQuota.SalesTerritoryKey
+	toColumn: DimSalesTerritory.SalesTerritoryKey
+
+relationship 32a2ec7e-0fce-1663-6677-bc347e4d2640
+	fromColumn: FactSales.OrderDateKey
+	toColumn: DimDate.DateKey
+

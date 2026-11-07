@@ -1,0 +1,732 @@
+table FactSales
+	lineageTag: af78c49d-1676-4068-987e-14e48bb7e8ce
+	sourceLineageTag: [gold].[FactSales]
+
+	measure 'Online Sales' = CALCULATE ( [Total Sales], FactSales[SalesChannel] = "Online" )
+		displayFolder: Channel
+		lineageTag: e222c3b0-0383-44e0-ae2a-792d77b34c42
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Online Sales %' = DIVIDE ( [Online Sales], [Total Sales] )
+		displayFolder: Channel
+		lineageTag: c8e7f992-5742-4ee5-a878-c755e824d03f
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Reseller Sales' = CALCULATE ( [Total Sales], FactSales[SalesChannel] = "Reseller" )
+		displayFolder: Channel
+		lineageTag: ad70d51e-ffe7-4f1f-b4f7-0a09d897441b
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Customers = ```
+			DISTINCTCOUNT ( FactSales[CustomerKey] )
+			
+			```
+		formatString: 0
+		displayFolder: Customers
+		lineageTag: 3d637987-5a75-4c0d-9804-bc647f26010f
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'New Customers' = ```
+			
+			    -- customers whose first-ever order falls inside the selected period
+			    VAR StartKey = YEAR ( MIN ( DimDate[Date] ) ) * 10000
+			                 + MONTH ( MIN ( DimDate[Date] ) ) * 100
+			                 + DAY ( MIN ( DimDate[Date] ) )
+			    RETURN
+			        COUNTROWS (
+			            FILTER (
+			                VALUES ( FactSales[CustomerKey] ),
+			                CALCULATE ( MIN ( FactSales[OrderDateKey] ), ALL ( DimDate ) ) >= StartKey
+			            )
+			        )
+			
+			```
+		formatString: 0
+		displayFolder: Customers
+		lineageTag: 60a30fed-dbcc-4b07-8644-9a5277f42637
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'Returning Customers' = [Customers] - [New Customers]
+		formatString: 0
+		displayFolder: Customers
+		lineageTag: 644ba114-7f98-438d-9baf-dcfda91297b2
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'Sales per Customer' = DIVIDE ( [Total Sales], [Customers] )
+		displayFolder: Customers
+		lineageTag: 07c5bb9a-e426-4728-8f7c-1123311410d0
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Days to Ship' = AVERAGE ( FactSalesOrder[DaysToShip] )
+		displayFolder: Orders
+		lineageTag: 092c4794-20a6-4b2d-b417-d4237ee42ce3
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Lines per Order' = DIVIDE ( COUNTROWS ( FactSales ), [Orders] )
+		displayFolder: Orders
+		lineageTag: b85782cc-68a8-461c-8985-5b1064870912
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Freight = SUM ( FactSalesOrder[Freight] )
+		displayFolder: Orders
+		lineageTag: 46782548-4236-4fc1-8cd9-d2b54adb3d34
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Order Value' = DIVIDE ( [Total Sales], [Orders] )
+		displayFolder: Orders
+		lineageTag: 2ab0c321-2f59-4e04-9a6d-d53339e4b4bd
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Late Shipment %' = ```
+			
+			    DIVIDE (
+			        CALCULATE ( COUNTROWS ( FactSalesOrder ), FactSalesOrder[IsLateShipment] = TRUE () ),
+			        COUNTROWS ( FactSalesOrder )
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Orders
+		lineageTag: 72b69245-22d5-42aa-802d-d00026b6f12b
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure Orders = DISTINCTCOUNT ( FactSales[SalesOrderID] )
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 3b32a1f2-a324-41d3-8284-736b0357baa7
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure Tax = SUM ( FactSalesOrder[TaxAmt] )
+		displayFolder: Orders
+		lineageTag: c1dca01c-385e-422b-a5b5-1d544e805afd
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Due' = SUM ( FactSalesOrder[TotalDue] )
+		displayFolder: Orders
+		lineageTag: 44c39ea8-7c09-4d44-b540-44c40ffef3ff
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cumulative Sales %' =
+			-- for the Pareto (80/20) chart
+			    VAR CurrentSales = [Total Sales]
+			    VAR Cumulative =
+			        SUMX (
+			            FILTER ( ALLSELECTED ( DimProduct[ProductName] ), [Total Sales] >= CurrentSales ),
+			            [Total Sales]
+			        )
+			    RETURN DIVIDE ( Cumulative, CALCULATE ( [Total Sales], ALLSELECTED ( DimProduct[ProductName] ) ) )
+		displayFolder: Product
+		lineageTag: 1c73f7ae-6035-4c8e-af3f-67db9d17c004
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Product Sales Rank' = ```
+			
+			    IF (
+			        ISINSCOPE ( DimProduct[ProductName] ),
+			        RANKX ( ALLSELECTED ( DimProduct[ProductName] ), [Total Sales], , DESC, DENSE )
+			    )
+			```
+		formatString: 0
+		displayFolder: Product
+		lineageTag: 6386207a-500e-48fb-a25c-b25128b84281
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'Discount %' = DIVIDE ( [Discount Amount], [Total Sales] + [Discount Amount] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Sales
+		lineageTag: 8b04eac2-594f-49b4-b3b8-c7883132916c
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Discount Amount' = ```
+			SUM ( FactSales[DiscountAmount] )  
+			```
+		displayFolder: Sales
+		lineageTag: f0755dc2-fd7a-40c4-91db-dbb13bee45c7
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Margin' = ```
+			SUM ( FactSales[GrossMargin] )   
+			```
+		displayFolder: Sales
+		lineageTag: 5df43823-7a59-46b4-9659-a4bb0098bc08
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Margin %' = DIVIDE ( [Gross Margin], [Total Sales] )                  -- Percentage
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Sales
+		lineageTag: 0a9fdf76-f690-4a4b-8b77-6288cf1a29c1
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Total Cost' = ```
+			SUM ( FactSales[TotalProductCost] )  
+			```
+		displayFolder: Sales
+		lineageTag: 20e8527a-4b32-4bfb-983d-6f5bb6de2dac
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Sales' = SUM ( FactSales[LineTotal] )                              -- Currency
+		displayFolder: Sales
+		lineageTag: 7c6f2950-cb5d-457b-9aea-dc692bfdac96
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Units Sold' = ```
+			SUM ( FactSales[OrderQty] )   
+			```
+		formatString: 0
+		displayFolder: Sales
+		lineageTag: 8e24d5c8-4465-4873-9c14-4f410c633829
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'Quota Attainment %' = DIVIDE ( [Total Sales], [Sales Quota] )
+		displayFolder: Sales Team
+		lineageTag: 63b149fe-91db-41b9-8278-9c6395ea4c86
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quota Variance' = [Total Sales] - [Sales Quota]
+		displayFolder: Sales Team
+		lineageTag: dcf34860-b111-4ba2-8697-1b421c0cf8bc
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Quota' = SUM ( FactSalesQuota[SalesQuota] )
+		displayFolder: Sales Team
+		lineageTag: 2e9c3e59-bd95-43cf-9641-2f4e6165afa8
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Margin % LY' = ```
+			CALCULATE ( [Margin %], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Time Intelligence
+		lineageTag: c50ca5bf-e86a-4bba-b8dd-4ad79b19fb72
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Sales by Ship Date' = ```
+			
+			    CALCULATE ( [Total Sales], USERELATIONSHIP ( FactSales[ShipDateKey], DimDate[DateKey] ) )
+			```
+		displayFolder: Time Intelligence
+		lineageTag: 91bf34a9-159a-4fc6-8d54-04d45a5a858f
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales FYTD' = ```
+			TOTALYTD ( [Total Sales], DimDate[Date], "6/30" )   -- AW fiscal year ends 30 June
+			
+			```
+		displayFolder: Time Intelligence
+		lineageTag: b2b01a94-4c05-405c-b89c-1f377d32c3dc
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales FYTD LY' = ```
+			CALCULATE ( [Sales FYTD], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
+			
+			```
+		displayFolder: Time Intelligence
+		lineageTag: 3ecb83fd-1220-4e88-aceb-41378f8f9251
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales LY' = CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
+		displayFolder: Time Intelligence
+		lineageTag: be0ad224-905c-4c11-8f92-af297a739ecb
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales YoY' = [Total Sales] - [Sales LY]
+		displayFolder: Time Intelligence
+		lineageTag: 13104753-1e4f-47f4-8245-59ee9b2cf85d
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales YoY %' = DIVIDE ( [Sales YoY], [Sales LY] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Time Intelligence
+		lineageTag: 1ea97288-c54b-4d61-a88f-a80ea51a31a3
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	column SalesOrderID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a4fda268-d391-48f2-ae68-c8a444b37072
+		sourceLineageTag: SalesOrderID
+		summarizeBy: count
+		sourceColumn: SalesOrderID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderDetailID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 06886ca0-80e9-4ba3-a1b2-8bc6f2ee0dcc
+		sourceLineageTag: SalesOrderDetailID
+		summarizeBy: count
+		sourceColumn: SalesOrderDetailID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderNumber
+		dataType: string
+		lineageTag: a5680926-9e9d-422d-afd9-47acb9cff042
+		sourceLineageTag: SalesOrderNumber
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d4fa5f93-c1b1-4047-855a-3891ff85966f
+		sourceLineageTag: OrderDateKey
+		summarizeBy: none
+		sourceColumn: OrderDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DueDateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dc7da9b8-5d5c-4688-8dd5-191f1a7ac742
+		sourceLineageTag: DueDateKey
+		summarizeBy: count
+		sourceColumn: DueDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipDateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3ae78222-97ef-4cfb-a127-cfeba4a474b3
+		sourceLineageTag: ShipDateKey
+		summarizeBy: count
+		sourceColumn: ShipDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4c3a6da0-d126-4e5c-8d01-92b66038db1f
+		sourceLineageTag: CustomerKey
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 59337845-6750-4b28-936c-ff6a1b10efbf
+		sourceLineageTag: ProductKey
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 602e78fd-7138-4716-b9f8-c53041e9b1ed
+		sourceLineageTag: PromotionKey
+		summarizeBy: none
+		sourceColumn: PromotionKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9aef4bab-d189-4c48-91d4-f2c1e7106978
+		sourceLineageTag: SalesTerritoryKey
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmployeeKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 815fa7b5-a9fd-4913-9f86-9b29be2d765e
+		sourceLineageTag: EmployeeKey
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipMethodKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 939cc367-40fd-4369-866b-9dedcef2a1f8
+		sourceLineageTag: ShipMethodKey
+		summarizeBy: none
+		sourceColumn: ShipMethodKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5bd702d2-7ab1-49fe-bb97-c924a9ccdfc8
+		sourceLineageTag: CurrencyKey
+		summarizeBy: none
+		sourceColumn: CurrencyKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipToGeographyKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 17b4ff12-e9e4-4db0-9472-9280aa1e915c
+		sourceLineageTag: ShipToGeographyKey
+		summarizeBy: none
+		sourceColumn: ShipToGeographyKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OnlineOrderFlag
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 624f64c6-ae6c-41be-a6d6-cd279d6408ff
+		sourceLineageTag: OnlineOrderFlag
+		summarizeBy: none
+		sourceColumn: OnlineOrderFlag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderQty
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c1a70c53-ab27-46f4-beec-ad945d8299c9
+		sourceLineageTag: OrderQty
+		summarizeBy: sum
+		sourceColumn: OrderQty
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: double
+		isHidden
+		lineageTag: 9f9a1382-6e5a-4944-a2ca-f967fd84a3b2
+		sourceLineageTag: UnitPrice
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UnitPriceDiscount
+		dataType: double
+		isHidden
+		lineageTag: 28e82e78-0698-4d9b-97ae-b6e0e1dd6681
+		sourceLineageTag: UnitPriceDiscount
+		summarizeBy: sum
+		sourceColumn: UnitPriceDiscount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DiscountAmount
+		dataType: double
+		isHidden
+		lineageTag: 74eace78-d9dc-416e-bda9-2cd80c8a7eed
+		sourceLineageTag: DiscountAmount
+		summarizeBy: sum
+		sourceColumn: DiscountAmount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LineTotal
+		dataType: double
+		isHidden
+		lineageTag: 68dac212-503d-4275-8f8d-533bf2b9d8c8
+		sourceLineageTag: LineTotal
+		summarizeBy: sum
+		sourceColumn: LineTotal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UnitCost
+		dataType: double
+		isHidden
+		lineageTag: ed844987-fcc0-4f0b-9187-5506eca8ce74
+		sourceLineageTag: UnitCost
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalProductCost
+		dataType: double
+		isHidden
+		lineageTag: 9b72ac30-d273-48d7-bf70-8c6a119077c8
+		sourceLineageTag: TotalProductCost
+		summarizeBy: sum
+		sourceColumn: TotalProductCost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GrossMargin
+		dataType: double
+		isHidden
+		lineageTag: 932e4326-e768-4ad1-b46c-a50c1f98fff3
+		sourceLineageTag: GrossMargin
+		summarizeBy: sum
+		sourceColumn: GrossMargin
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: 021eb574-0286-4ae7-bd11-74acf5249ea2
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesChannel
+		dataType: string
+		lineageTag: f006b385-5439-45c0-86cb-60283254ce9d
+		sourceLineageTag: SalesChannel
+		summarizeBy: none
+		sourceColumn: SalesChannel
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSales = entity
+		mode: directLake
+		source
+			entityName: FactSales
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

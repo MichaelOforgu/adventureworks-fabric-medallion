@@ -1,0 +1,28 @@
+CREATE TABLE [metadata].[AdventureWorks] (
+    [TABLE_CATALOG]            VARCHAR (8000) NULL,
+    [TABLE_SCHEMA]             VARCHAR (8000) NULL,
+    [TABLE_NAME]               VARCHAR (8000) NULL,
+    [COLUMN_NAME]              VARCHAR (8000) NULL,
+    [ORDINAL_POSITION]         INT            NULL,
+    [COLUMN_DEFAULT]           VARCHAR (8000) NULL,
+    [IS_NULLABLE]              VARCHAR (3)    NULL,
+    [DATA_TYPE]                VARCHAR (8000) NULL,
+    [CHARACTER_MAXIMUM_LENGTH] INT            NULL,
+    [CHARACTER_OCTET_LENGTH]   INT            NULL,
+    [NUMERIC_PRECISION]        INT            NULL,
+    [NUMERIC_PRECISION_RADIX]  SMALLINT       NULL,
+    [NUMERIC_SCALE]            INT            NULL,
+    [DATETIME_PRECISION]       SMALLINT       NULL,
+    [CHARACTER_SET_CATALOG]    VARCHAR (8000) NULL,
+    [CHARACTER_SET_SCHEMA]     VARCHAR (8000) NULL,
+    [CHARACTER_SET_NAME]       VARCHAR (8000) NULL,
+    [COLLATION_CATALOG]        VARCHAR (8000) NULL,
+    [COLLATION_SCHEMA]         VARCHAR (8000) NULL,
+    [COLLATION_NAME]           VARCHAR (8000) NULL,
+    [DOMAIN_CATALOG]           VARCHAR (8000) NULL,
+    [DOMAIN_SCHEMA]            VARCHAR (8000) NULL,
+    [DOMAIN_NAME]              VARCHAR (8000) NULL
+);
+
+
+GO

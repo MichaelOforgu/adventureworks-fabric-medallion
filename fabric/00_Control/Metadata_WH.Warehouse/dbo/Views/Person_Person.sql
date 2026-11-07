@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Person_Person] AS SELECT CAST([BusinessEntityID] AS int) AS [BusinessEntityID], CAST([PersonType] AS nchar(2)) AS [PersonType], CAST([NameStyle] AS bit) AS [NameStyle], CAST([Title] AS VARCHAR(8)) AS [Title], CAST([FirstName] AS VARCHAR(50)) AS [FirstName], CAST([MiddleName] AS VARCHAR(50)) AS [MiddleName], CAST([LastName] AS VARCHAR(50)) AS [LastName], CAST([Suffix] AS VARCHAR(10)) AS [Suffix], CAST([EmailPromotion] AS int) AS [EmailPromotion], CAST([AdditionalContactInfo] AS VARCHAR(MAX)) AS [AdditionalContactInfo], CAST([Demographics] AS VARCHAR(MAX)) AS [Demographics], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Person_Person];
+
+GO

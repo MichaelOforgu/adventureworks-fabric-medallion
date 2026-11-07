@@ -1,0 +1,134 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Switch",
+        "typeProperties": {
+          "on": {
+            "value": "@pipeline().parameters.loadtype",
+            "type": "Expression"
+          },
+          "cases": [
+            {
+              "value": "full",
+              "activities": [
+                {
+                  "type": "Copy",
+                  "typeProperties": {
+                    "source": {
+                      "type": "SqlServerSource",
+                      "sqlReaderQuery": {
+                        "value": "@if(\n    empty(pipeline().parameters.sourcequery),\n    concat(\n        'SELECT *, CAST(FORMAT(GETDATE(), ''yyyyMMddHHmm'') AS BIGINT) AS LakeLoadWaterMark FROM ',\n        pipeline().parameters.sourceschema,\n        '.',\n        pipeline().parameters.sourcetable\n    ),\n    concat(\n        pipeline().parameters.sourcequery,\n        ' '\n    )\n)",
+                        "type": "Expression"
+                      },
+                      "partitionOption": "None",
+                      "queryTimeout": "02:00:00",
+                      "datasetSettings": {
+                        "type": "SqlServerTable",
+                        "typeProperties": {
+                          "database": "AdventureWorks2019"
+                        },
+                        "schema": [],
+                        "externalReferences": {
+                          "connection": "00e4406f-6035-4c16-be87-fc35402a6e23"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "sink": {
+                      "type": "LakehouseTableSink",
+                      "tableActionOption": "OverwriteSchema",
+                      "applyVOrder": false,
+                      "enableTimestampNtz": false,
+                      "partitionOption": "None",
+                      "datasetSettings": {
+                        "type": "LakehouseTable",
+                        "typeProperties": {
+                          "schema": {
+                            "value": "@pipeline().parameters.sinkdatabase",
+                            "type": "Expression"
+                          },
+                          "table": {
+                            "value": "@pipeline().parameters.sinktable",
+                            "type": "Expression"
+                          }
+                        },
+                        "schema": [],
+                        "linkedService": {
+                          "name": "lh_bronze",
+                          "properties": {
+                            "type": "Lakehouse",
+                            "typeProperties": {
+                              "artifactId": "8b3f454d-3a9e-b3cf-46db-cd92998a7c74",
+                              "workspaceId": "00000000-0000-0000-0000-000000000000",
+                              "rootFolder": "Tables"
+                            },
+                            "annotations": []
+                          }
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "translator": {
+                      "type": "TabularTranslator",
+                      "typeConversion": true,
+                      "typeConversionSettings": {
+                        "allowDataTruncation": true,
+                        "treatBooleanAsNumber": false
+                      }
+                    },
+                    "enableStaging": false
+                  },
+                  "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureInput": false,
+                    "secureOutput": false
+                  },
+                  "name": "Full load data to delta bronze",
+                  "dependsOn": []
+                }
+              ]
+            }
+          ],
+          "defaultActivities": []
+        },
+        "name": "LoadType",
+        "dependsOn": []
+      }
+    ],
+    "parameters": {
+      "sourceincrementalcolumn": {
+        "type": "string"
+      },
+      "sourceincrementalstartValue": {
+        "type": "string"
+      },
+      "sourceincrementaltype": {
+        "type": "string"
+      },
+      "sourceschema": {
+        "type": "string"
+      },
+      "sourcetable": {
+        "type": "string"
+      },
+      "sinktable": {
+        "type": "string"
+      },
+      "loadtype": {
+        "type": "string"
+      },
+      "tablekey": {
+        "type": "string"
+      },
+      "sinkdatabase": {
+        "type": "string"
+      },
+      "sourcequery": {
+        "type": "string"
+      }
+    }
+  }
+}

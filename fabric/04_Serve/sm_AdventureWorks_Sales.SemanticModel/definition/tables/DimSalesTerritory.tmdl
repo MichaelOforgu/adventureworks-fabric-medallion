@@ -1,0 +1,63 @@
+table DimSalesTerritory
+	lineageTag: e373bcf3-45db-4cc0-9384-76bcf80a7d83
+	sourceLineageTag: [gold].[DimSalesTerritory]
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5b014e66-e5a1-4fe6-8cbe-1f9539131557
+		sourceLineageTag: SalesTerritoryKey
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryName
+		dataType: string
+		lineageTag: f9cbc4fb-5239-4417-88b3-44acea5027e0
+		sourceLineageTag: TerritoryName
+		summarizeBy: none
+		sourceColumn: TerritoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryRegionCode
+		dataType: string
+		lineageTag: 94c28264-683a-4257-9cea-15f48e08eefe
+		sourceLineageTag: CountryRegionCode
+		summarizeBy: none
+		sourceColumn: CountryRegionCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryGroup
+		dataType: string
+		lineageTag: 3c8846a9-0fa5-4b50-8a94-93d626526d6f
+		sourceLineageTag: TerritoryGroup
+		summarizeBy: none
+		sourceColumn: TerritoryGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: 1d436eae-c433-48d2-ae3c-e54e13326a81
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimSalesTerritory = entity
+		mode: directLake
+		source
+			entityName: DimSalesTerritory
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

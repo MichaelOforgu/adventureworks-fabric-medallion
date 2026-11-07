@@ -1,0 +1,54 @@
+table DimCurrency
+	lineageTag: f115dd3c-3643-4bf5-aa62-6cedbcdd3f0f
+	sourceLineageTag: [gold].[DimCurrency]
+
+	column CurrencyKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 456e03b7-bbe0-4dc5-837d-85ed999d0050
+		sourceLineageTag: CurrencyKey
+		summarizeBy: none
+		sourceColumn: CurrencyKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyCode
+		dataType: string
+		lineageTag: d811ffc2-10f3-466b-b2f7-2a76d09c1479
+		sourceLineageTag: CurrencyCode
+		summarizeBy: none
+		sourceColumn: CurrencyCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyName
+		dataType: string
+		lineageTag: 1928565e-1f71-4b25-972f-1bd7bd8cf5ea
+		sourceLineageTag: CurrencyName
+		summarizeBy: none
+		sourceColumn: CurrencyName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: 5cf0b8f3-00df-493a-9914-2d475f2c474d
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCurrency = entity
+		mode: directLake
+		source
+			entityName: DimCurrency
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

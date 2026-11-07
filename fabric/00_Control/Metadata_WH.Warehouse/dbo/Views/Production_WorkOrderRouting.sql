@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Production_WorkOrderRouting] AS SELECT CAST([WorkOrderID] AS int) AS [WorkOrderID], CAST([ProductID] AS int) AS [ProductID], CAST([OperationSequence] AS smallint) AS [OperationSequence], CAST([LocationID] AS smallint) AS [LocationID], CAST([ScheduledStartDate] AS datetime2(6)) AS [ScheduledStartDate], CAST([ScheduledEndDate] AS datetime2(6)) AS [ScheduledEndDate], CAST([ActualStartDate] AS datetime2(6)) AS [ActualStartDate], CAST([ActualEndDate] AS datetime2(6)) AS [ActualEndDate], CAST([ActualResourceHrs] AS decimal(9,4)) AS [ActualResourceHrs], CAST([PlannedCost] AS money) AS [PlannedCost], CAST([ActualCost] AS money) AS [ActualCost], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Production_WorkOrderRouting];
+
+GO

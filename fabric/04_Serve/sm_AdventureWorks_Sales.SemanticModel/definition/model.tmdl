@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["DirectLake - wh_gold"]
+
+annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit"]
+
+ref table DimCurrency
+ref table DimCustomer
+ref table DimDate
+ref table DimEmployee
+ref table DimGeography
+ref table DimProduct
+ref table DimPromotion
+ref table DimSalesTerritory
+ref table DimShipMethod
+ref table FactSales
+ref table FactSalesOrder
+ref table FactSalesQuota
+

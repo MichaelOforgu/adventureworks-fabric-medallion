@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Production_TransactionHistoryArchive] AS SELECT CAST([TransactionID] AS int) AS [TransactionID], CAST([ProductID] AS int) AS [ProductID], CAST([ReferenceOrderID] AS int) AS [ReferenceOrderID], CAST([ReferenceOrderLineID] AS int) AS [ReferenceOrderLineID], CAST([TransactionDate] AS datetime2(6)) AS [TransactionDate], CAST([TransactionType] AS nchar(1)) AS [TransactionType], CAST([Quantity] AS int) AS [Quantity], CAST([ActualCost] AS money) AS [ActualCost], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Production_TransactionHistoryArchive];
+
+GO

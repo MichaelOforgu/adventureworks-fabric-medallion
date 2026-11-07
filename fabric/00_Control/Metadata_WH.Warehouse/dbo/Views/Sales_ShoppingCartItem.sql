@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Sales_ShoppingCartItem] AS SELECT CAST([ShoppingCartItemID] AS int) AS [ShoppingCartItemID], CAST([ShoppingCartID] AS VARCHAR(50)) AS [ShoppingCartID], CAST([Quantity] AS int) AS [Quantity], CAST([ProductID] AS int) AS [ProductID], CAST([DateCreated] AS datetime2(6)) AS [DateCreated], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Sales_ShoppingCartItem];
+
+GO

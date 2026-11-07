@@ -1,0 +1,136 @@
+table DimCustomer
+	lineageTag: eaecd5af-bcfb-4906-b561-87cab938e78e
+	sourceLineageTag: [gold].[DimCustomer]
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fd8f9385-db7d-414f-b774-93260e98c068
+		sourceLineageTag: CustomerKey
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountNumber
+		dataType: string
+		lineageTag: 59f2f395-e24f-4cd6-93d8-1b50161b0196
+		sourceLineageTag: AccountNumber
+		summarizeBy: none
+		sourceColumn: AccountNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerType
+		dataType: string
+		lineageTag: 8a05c629-027c-4525-afc0-12e9d3ca0808
+		sourceLineageTag: CustomerType
+		summarizeBy: none
+		sourceColumn: CustomerType
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: 6d97b1d3-e194-4bae-8a82-b85754b19f96
+		sourceLineageTag: CustomerName
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContactName
+		dataType: string
+		lineageTag: ae987b33-6141-4f8e-b397-610f192d91af
+		sourceLineageTag: ContactName
+		summarizeBy: none
+		sourceColumn: ContactName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmailAddress
+		dataType: string
+		lineageTag: eca054c2-0f56-483e-8259-810803aad2a1
+		sourceLineageTag: EmailAddress
+		summarizeBy: none
+		sourceColumn: EmailAddress
+
+		annotation SummarizationSetBy = Automatic
+
+	column AddressLine1
+		dataType: string
+		lineageTag: 84e1d7a0-083f-4c88-8882-0bf98066f4d8
+		sourceLineageTag: AddressLine1
+		summarizeBy: none
+		sourceColumn: AddressLine1
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 415419fe-ddd7-4f1a-9190-c55d613ded5c
+		sourceLineageTag: City
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateProvinceName
+		dataType: string
+		lineageTag: 2b2307e9-c89a-4085-b727-e9e9b42341df
+		sourceLineageTag: StateProvinceName
+		summarizeBy: none
+		sourceColumn: StateProvinceName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryRegionName
+		dataType: string
+		lineageTag: 014e4889-2d71-4ff4-8ebd-0ffb5ddc85e5
+		sourceLineageTag: CountryRegionName
+		summarizeBy: none
+		sourceColumn: CountryRegionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column PostalCode
+		dataType: string
+		lineageTag: 6a0e6305-4ed0-456a-ba88-6fead717a624
+		sourceLineageTag: PostalCode
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column GeographyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c1e3421-1f04-4aba-aea8-67c5bea54f0b
+		sourceLineageTag: GeographyKey
+		summarizeBy: count
+		sourceColumn: GeographyKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadRunId
+		dataType: string
+		isHidden
+		lineageTag: d16ab3d2-bc7d-4ece-89eb-688c4c59a9f0
+		sourceLineageTag: LoadRunId
+		summarizeBy: none
+		sourceColumn: LoadRunId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = entity
+		mode: directLake
+		source
+			entityName: DimCustomer
+			schemaName: gold
+			expressionSource: 'DirectLake - wh_gold'
+

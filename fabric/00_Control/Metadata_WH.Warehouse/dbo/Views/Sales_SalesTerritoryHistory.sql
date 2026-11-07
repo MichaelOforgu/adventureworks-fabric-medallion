@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Sales_SalesTerritoryHistory] AS SELECT CAST([BusinessEntityID] AS int) AS [BusinessEntityID], CAST([TerritoryID] AS int) AS [TerritoryID], CAST([StartDate] AS datetime2(6)) AS [StartDate], CAST([EndDate] AS datetime2(6)) AS [EndDate], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Sales_SalesTerritoryHistory];
+
+GO

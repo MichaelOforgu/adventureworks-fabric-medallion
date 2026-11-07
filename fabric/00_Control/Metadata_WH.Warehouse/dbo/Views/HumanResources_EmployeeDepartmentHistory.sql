@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[HumanResources_EmployeeDepartmentHistory] AS SELECT CAST([BusinessEntityID] AS int) AS [BusinessEntityID], CAST([DepartmentID] AS smallint) AS [DepartmentID], CAST([ShiftID] AS tinyint) AS [ShiftID], CAST([StartDate] AS date) AS [StartDate], CAST([EndDate] AS date) AS [EndDate], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[HumanResources_EmployeeDepartmentHistory];
+
+GO

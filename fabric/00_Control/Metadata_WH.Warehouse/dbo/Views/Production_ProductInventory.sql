@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Production_ProductInventory] AS SELECT CAST([ProductID] AS int) AS [ProductID], CAST([LocationID] AS smallint) AS [LocationID], CAST([Shelf] AS VARCHAR(10)) AS [Shelf], CAST([Bin] AS tinyint) AS [Bin], CAST([Quantity] AS smallint) AS [Quantity], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Production_ProductInventory];
+
+GO

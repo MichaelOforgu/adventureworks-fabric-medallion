@@ -1,0 +1,3 @@
+CREATE   VIEW dbo.[Purchasing_PurchaseOrderDetail] AS SELECT CAST([PurchaseOrderID] AS int) AS [PurchaseOrderID], CAST([PurchaseOrderDetailID] AS int) AS [PurchaseOrderDetailID], CAST([DueDate] AS datetime2(6)) AS [DueDate], CAST([OrderQty] AS smallint) AS [OrderQty], CAST([ProductID] AS int) AS [ProductID], CAST([UnitPrice] AS money) AS [UnitPrice], CAST([LineTotal] AS money) AS [LineTotal], CAST([ReceivedQty] AS decimal(8,2)) AS [ReceivedQty], CAST([RejectedQty] AS decimal(8,2)) AS [RejectedQty], CAST([StockedQty] AS decimal(9,2)) AS [StockedQty], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Purchasing_PurchaseOrderDetail];
+
+GO
