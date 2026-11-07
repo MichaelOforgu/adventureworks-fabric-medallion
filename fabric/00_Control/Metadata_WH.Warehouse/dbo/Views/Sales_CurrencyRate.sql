@@ -1,3 +1,0 @@
-CREATE   VIEW dbo.[Sales_CurrencyRate] AS SELECT CAST([CurrencyRateID] AS int) AS [CurrencyRateID], CAST([CurrencyRateDate] AS datetime2(6)) AS [CurrencyRateDate], CAST([FromCurrencyCode] AS nchar(3)) AS [FromCurrencyCode], CAST([ToCurrencyCode] AS nchar(3)) AS [ToCurrencyCode], CAST([AverageRate] AS money) AS [AverageRate], CAST([EndOfDayRate] AS money) AS [EndOfDayRate], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Sales_CurrencyRate];
-
-GO

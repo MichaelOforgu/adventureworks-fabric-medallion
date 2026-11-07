@@ -1,3 +1,0 @@
-CREATE   VIEW dbo.[Purchasing_ProductVendor] AS SELECT CAST([ProductID] AS int) AS [ProductID], CAST([BusinessEntityID] AS int) AS [BusinessEntityID], CAST([AverageLeadTime] AS int) AS [AverageLeadTime], CAST([StandardPrice] AS money) AS [StandardPrice], CAST([LastReceiptCost] AS money) AS [LastReceiptCost], CAST([LastReceiptDate] AS datetime2(6)) AS [LastReceiptDate], CAST([MinOrderQty] AS int) AS [MinOrderQty], CAST([MaxOrderQty] AS int) AS [MaxOrderQty], CAST([OnOrderQty] AS int) AS [OnOrderQty], CAST([UnitMeasureCode] AS nchar(3)) AS [UnitMeasureCode], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Purchasing_ProductVendor];
-
-GO

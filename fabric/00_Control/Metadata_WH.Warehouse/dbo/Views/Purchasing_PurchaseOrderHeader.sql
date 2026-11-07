@@ -1,3 +1,0 @@
-CREATE   VIEW dbo.[Purchasing_PurchaseOrderHeader] AS SELECT CAST([PurchaseOrderID] AS int) AS [PurchaseOrderID], CAST([RevisionNumber] AS tinyint) AS [RevisionNumber], CAST([Status] AS tinyint) AS [Status], CAST([EmployeeID] AS int) AS [EmployeeID], CAST([VendorID] AS int) AS [VendorID], CAST([ShipMethodID] AS int) AS [ShipMethodID], CAST([OrderDate] AS datetime2(6)) AS [OrderDate], CAST([ShipDate] AS datetime2(6)) AS [ShipDate], CAST([SubTotal] AS money) AS [SubTotal], CAST([TaxAmt] AS money) AS [TaxAmt], CAST([Freight] AS money) AS [Freight], CAST([TotalDue] AS money) AS [TotalDue], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Purchasing_PurchaseOrderHeader];
-
-GO

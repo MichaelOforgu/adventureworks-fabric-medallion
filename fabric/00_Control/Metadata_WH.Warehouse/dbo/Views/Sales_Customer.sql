@@ -1,3 +1,0 @@
-CREATE   VIEW dbo.[Sales_Customer] AS SELECT CAST([CustomerID] AS int) AS [CustomerID], CAST([PersonID] AS int) AS [PersonID], CAST([StoreID] AS int) AS [StoreID], CAST([TerritoryID] AS int) AS [TerritoryID], CAST([AccountNumber] AS varchar(10)) AS [AccountNumber], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Sales_Customer];
-
-GO

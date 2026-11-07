@@ -1,3 +1,0 @@
-CREATE   VIEW dbo.[Sales_SalesTaxRate] AS SELECT CAST([SalesTaxRateID] AS int) AS [SalesTaxRateID], CAST([StateProvinceID] AS int) AS [StateProvinceID], CAST([TaxType] AS tinyint) AS [TaxType], CAST([TaxRate] AS smallmoney) AS [TaxRate], CAST([Name] AS VARCHAR(50)) AS [Name], CAST([rowguid] AS uniqueidentifier) AS [rowguid], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Sales_SalesTaxRate];
-
-GO

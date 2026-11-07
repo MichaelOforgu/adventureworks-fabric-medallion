@@ -1,3 +1,0 @@
-CREATE   VIEW dbo.[Production_WorkOrder] AS SELECT CAST([WorkOrderID] AS int) AS [WorkOrderID], CAST([ProductID] AS int) AS [ProductID], CAST([OrderQty] AS int) AS [OrderQty], CAST([StockedQty] AS int) AS [StockedQty], CAST([ScrappedQty] AS smallint) AS [ScrappedQty], CAST([StartDate] AS datetime2(6)) AS [StartDate], CAST([EndDate] AS datetime2(6)) AS [EndDate], CAST([DueDate] AS datetime2(6)) AS [DueDate], CAST([ScrapReasonID] AS smallint) AS [ScrapReasonID], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Production_WorkOrder];
-
-GO

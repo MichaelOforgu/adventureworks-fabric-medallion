@@ -1,3 +1,0 @@
-CREATE   VIEW dbo.[Production_ProductReview] AS SELECT CAST([ProductReviewID] AS int) AS [ProductReviewID], CAST([ProductID] AS int) AS [ProductID], CAST([ReviewerName] AS VARCHAR(50)) AS [ReviewerName], CAST([ReviewDate] AS datetime2(6)) AS [ReviewDate], CAST([EmailAddress] AS VARCHAR(50)) AS [EmailAddress], CAST([Rating] AS int) AS [Rating], CAST([Comments] AS VARCHAR(3850)) AS [Comments], CAST([ModifiedDate] AS datetime2(6)) AS [ModifiedDate] FROM [lh_bronze].[bronze].[Production_ProductReview];
-
-GO
